@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="history-container">
+
+    <h1>Journal History</h1>
+
+    {% if entries %}
+        <div class="history-list">
+            {% for e in entries %}
+            <div class="history-card">
+                <div class="history-entry">
+                    {{ e.text }}
+                </div>
+                <div class="history-mood">
+                    Mood: <strong>{{ e.mood }}</strong>
+                </div>
+
+                <!-- Delete single entry button -->
+                <form action="{{ url_for('delete_entry', entry_id=e.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Delete this entry?')">
+                        🗑 Delete
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-history">
+            <p>No journal entries found.</p>
+            <p>Start writing in your dashboard to track your moods.</p>
+        </div>
+    {% endif %}
+
+    <div class="history-actions">
+        <a href="{{ url_for('dashboard') }}" class="btn">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

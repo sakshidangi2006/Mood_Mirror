@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="score-container">
+
+    <h1>Mood Score Dashboard</h1>
+
+    <h2>Overall Wellbeing Score</h2>
+
+    <h1>{{ wellbeing_score }}/100</h1>
+
+    <hr>
+
+    <p><strong>Total Entries:</strong> {{ total }}</p>
+
+    <p>😊 Happy: {{ happy }}</p>
+
+    <p>😐 Neutral: {{ neutral }}</p>
+
+    <p>😟 Stressed: {{ stressed }}</p>
+
+    <p>😢 Sad: {{ sad }}</p>
+
+</div>
+
+{% endblock %}

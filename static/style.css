@@ -1,0 +1,497 @@
+/* ==========================================================================
+   1. VARIABLES & CORE SYSTEM FOUNDATION
+   ========================================================================== */
+:root {
+    --pink: #ff2d78;
+    --pink-rgb: 255, 45, 120;
+    --cyan: #00f5ff;
+    --cyan-rgb: 0, 245, 255;
+    --purple: #7c3aed;
+    --bg: #0d0d14;
+    --card: #13131f;
+    --card-light: #16161f;
+    --text: #ffffff;
+    --muted: rgba(255, 255, 255, 0.65);
+    --border: rgba(255, 255, 255, 0.08);
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 8px;
+    --transition: 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: 
+        radial-gradient(circle at top left, rgba(var(--pink-rgb), 0.2) 0%, transparent 35%),
+        radial-gradient(circle at bottom right, rgba(var(--cyan-rgb), 0.15) 0%, transparent 35%),
+        var(--bg);
+    overflow-x: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* ==========================================================================
+   2. FIXED STICKY HEADER & FLOATING NAVIGATION
+   ========================================================================== */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: rgba(17, 17, 24, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-shadow: 0 0 12px rgba(var(--pink-rgb), 0.6);
+}
+
+nav {
+    display: flex;
+    gap: 24px;
+}
+
+nav a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    position: relative;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--cyan);
+    transition: var(--transition);
+}
+
+nav a:hover {
+    color: var(--cyan);
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* ==========================================================================
+   3. UNIVERSAL INTERACTIVE SAAS CARDS
+   ========================================================================== */
+main {
+    padding: 40px 0 70px;
+}
+
+.dashboard-container, .history-container, .auth-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: fadeUp 0.5s ease-out;
+}
+
+.dashboard-container h1, .history-container h1, .auth-card h2 {
+    text-align: center;
+    font-size: 2.3rem;
+    font-weight: 700;
+    text-shadow: 0 0 15px rgba(var(--pink-rgb), 0.4);
+}
+
+.journal-card, .result-card, .history-card, .score-container, .auth-card, .entries-card {
+    background: rgba(19, 19, 31, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.journal-card:hover, .result-card:hover, .history-card:hover, .auth-card:hover, .entries-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(var(--pink-rgb), 0.3);
+    box-shadow: 0 0 25px rgba(var(--pink-rgb), 0.2), 0 0 40px rgba(var(--cyan-rgb), 0.1);
+}
+
+/* ==========================================================================
+   4. INPUTS, TEXTAREAS & GLOWING FORMS
+   ========================================================================== */
+textarea, input[type="email"], input[type="password"] {
+    width: 100%;
+    min-height: 150px;
+    margin-top: 15px;
+    background: var(--card-light);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    font-size: 15px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: var(--transition);
+}
+
+input[type="email"], input[type="password"] {
+    min-height: auto;
+    margin-bottom: 15px;
+}
+
+textarea:focus, input:focus {
+    border-color: var(--cyan);
+    background: var(--bg);
+    box-shadow: 0 0 20px rgba(var(--cyan-rgb), 0.25);
+}
+
+button, .btn {
+    display: inline-block;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 14px 24px;
+    margin-top: 10px;
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    transition: var(--transition);
+}
+
+button:hover, .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(var(--pink-rgb), 0.55);
+}
+
+button:active, .btn:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   5. UNIFIED DASHBOARD SCOREBOARD (CIRCULAR DASHBOARD)
+   ========================================================================== */
+.score-board-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 24px;
+    margin-bottom: 10px;
+}
+
+.score-card-radial, .score-stats-breakdown {
+    background: rgba(19, 19, 31, 0.85);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.score-card-radial h3, .score-stats-breakdown h3 {
+    color: var(--cyan);
+    font-size: 1.15rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(var(--cyan-rgb), 0.2);
+}
+
+/* Dynamic Interactive Circle */
+.circular-meter {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #09090f 65%, transparent);
+    border: 5px solid var(--pink);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 25px rgba(var(--pink-rgb), 0.4), inset 0 0 15px rgba(var(--pink-rgb), 0.2);
+}
+
+.score-number {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--cyan);
+    text-shadow: 0 0 15px rgba(var(--cyan-rgb), 0.6);
+}
+
+.score-max {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 16px;
+}
+
+/* Distribution Grid Elements */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+.stat-item {
+    background: var(--card-light);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-md);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.stat-item .emoji { font-size: 1.3rem; }
+.stat-item .label { color: var(--muted); font-size: 0.95rem; flex-grow: 1; }
+.stat-item .count { font-weight: 700; font-size: 1.1rem; }
+
+.total-entries-bar {
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+.total-entries-bar span {
+    color: var(--cyan);
+    font-weight: bold;
+}
+
+/* ==========================================================================
+   6. TIMELINE REVIEWS & ENTRIES
+   ========================================================================== */
+.entry-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    list-style: none;
+}
+
+.entry-card, .entry-list li {
+    background: var(--card-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    transition: var(--transition);
+}
+
+.entry-card:hover, .entry-list li:hover {
+    transform: translateX(4px);
+    border-color: var(--pink);
+}
+
+.entry-meta {
+    margin-bottom: 8px;
+    color: var(--cyan);
+}
+
+.entry-text {
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.entry-insights, .entry-recommendations {
+    font-size: 0.95rem;
+    margin-top: 8px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-sm);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.dashboard-actions a, .auth-links a, .switch-auth a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.dashboard-actions a:hover, .auth-links a:hover, .switch-auth a:hover {
+    color: white;
+}
+
+/* ==========================================================================
+   7. CHATBOT WIDGET INTERFACE (ARIA COACH LAYOUT)
+   ========================================================================== */
+.chat-container {
+    max-width: 850px;
+    margin: 1rem auto;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.chat-header {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chat-header .status-dot {
+    width: 10px;
+    height: 10px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.msg-bubble {
+    max-width: 75%;
+    padding: 1.1rem 1.4rem;
+    border-radius: var(--radius-md);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    animation: fadeUp 0.3s ease;
+}
+
+.msg-bubble.coach {
+    background: var(--card-light);
+    color: var(--text);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.msg-bubble.user {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+/* Suggestion Option Chips */
+.quick-prompts-wrapper {
+    display: flex;
+    gap: 10px;
+    padding: 0 2rem 1.2rem;
+    flex-wrap: wrap;
+}
+
+.prompt-chip {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.prompt-chip:hover {
+    background: rgba(var(--cyan-rgb), 0.15);
+    border-color: var(--cyan);
+    color: white;
+}
+
+.chat-input-area {
+    padding: 1.2rem 2rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+}
+
+.chat-input-area input {
+    margin-bottom: 0;
+    background: var(--bg);
+}
+
+/* ==========================================================================
+   8. SYSTEM ANIMATIONS & FOOTER
+   ========================================================================== */
+.history-card form button {
+    width: auto;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.error-msg {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+footer {
+    margin-top: 70px;
+    text-align: center;
+    padding: 24px;
+    background: #111118;
+    border-top: 1px solid var(--border);
+    color: rgba(255, 255, 255, 0.45);
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(var(--pink-rgb), 0.2); }
+    50% { box-shadow: 0 0 30px rgba(var(--pink-rgb), 0.45), 0 0 40px rgba(var(--cyan-rgb), 0.15); }
+}
+
+.result-card {
+    animation: fadeUp 0.5s ease, pulseGlow 4s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   9. RESPONSIVE LAYER
+   ========================================================================== */
+@media (max-width: 768px) {
+    .header-inner { flex-direction: column; gap: 15px; }
+    nav { flex-wrap: wrap; justify-content: center; gap: 15px; }
+    .score-board-wrapper { grid-template-columns: 1fr; }
+    .msg-bubble { max-width: 85%; }
+}

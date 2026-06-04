@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="dashboard-container">
+    <h1>Welcome {{ user }}</h1>
+
+    <div class="score-board-wrapper">
+        <div class="score-card-radial">
+            <h3>Overall Wellbeing Score</h3>
+            <div class="circular-meter">
+                <span class="score-number">{{ wellbeing_score if wellbeing_score is defined else 0 }}</span>
+                <span class="score-max">/100</span>
+            </div>
+        </div>
+
+        <div class="score-stats-breakdown">
+            <h3>Mood Distribution</h3>
+            <div class="stats-grid">
+                <div class="stat-item happy">
+                    <span class="emoji">😊</span>
+                    <span class="label">Happy</span>
+                    <span class="count">{{ happy if happy is defined else 0 }}</span>
+                </div>
+                <div class="stat-item neutral">
+                    <span class="emoji">😐</span>
+                    <span class="label">Neutral</span>
+                    <span class="count">{{ neutral if neutral is defined else 0 }}</span>
+                </div>
+                <div class="stat-item stressed">
+                    <span class="emoji">😟</span>
+                    <span class="label">Stressed</span>
+                    <span class="count">{{ stressed if stressed is defined else 0 }}</span>
+                </div>
+                <div class="stat-item sad">
+                    <span class="emoji">😢</span>
+                    <span class="label">Sad</span>
+                    <span class="count">{{ sad if sad is defined else 0 }}</span>
+                </div>
+            </div>
+            <div class="total-entries-bar">
+                <strong>Total Tracked Reflections:</strong> <span>{{ total if total is defined else 0 }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="journal-card">
+        <h2>How are you feeling today?</h2>
+        <form method="POST">
+            <textarea
+                name="entry"
+                placeholder="Write your thoughts..."
+                rows="6"
+                required>{{ request.form.get('entry', '') }}</textarea>
+
+            <button type="submit">Analyze Mood</button>
+        </form>
+    </div>
+
+    {% if latest_mood %}
+    <div class="result-card">
+        <h2>Mood Analysis</h2>
+        <p><strong>Detected Mood:</strong> {{ latest_mood }}</p>
+
+        <h3>Motivational Message</h3>
+        <p>{{ latest_message }}</p>
+
+        <h3>Insights</h3>
+        <p>{{ latest_insights }}</p>
+
+        <h3>Recommendations</h3>
+        <p>{{ latest_recommendations }}</p>
+    </div>
+    {% endif %}
+
+    <div class="entries-card">
+        <h2>Previous Journal Entries</h2>
+
+        {% if entries %}
+        <div class="entry-list">
+            {% for entry in entries|reverse %}
+            <div class="entry-card">
+                <div class="entry-meta">
+                    <span><strong>Mood:</strong> {{ entry.mood }}</span>
+                </div>
+                <div class="entry-text">{{ entry.text }}</div>
+                {% if entry.insights %}
+                <div class="entry-insights">
+                    <strong>Insights:</strong> {{ entry.insights }}
+                </div>
+                {% endif %}
+                {% if entry.recommendations %}
+                <div class="entry-recommendations">
+                    <strong>Recommendations:</strong> {{ entry.recommendations }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No journal entries yet. Share how you feel and start tracking your mood.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
