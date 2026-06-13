@@ -43,7 +43,6 @@ Mood_Mirror/
 ├── create_tables.py     # Script to create database tables
 ├── migrate_db.py        # Database migration utility
 ├── message_column.py    # Helper for message/column operations
-├──requirements.txt
 ├── static/              # CSS, JS, and static assets
 ├── templates/           # HTML Jinja2 templates
 └── .gitignore
